@@ -64,9 +64,19 @@ function TotalsDataView(data, columns) {
 
       var total = 0;
       var i = this.getLength() - 1;
-      var dataItems = data.getItems ? data.getItems() : data;
+      var getData;
+      
+      if (data.getItems) {
+        getData = function(j) {
+          return data.getItem(j);
+        } 
+      } else {
+        getData = function(j) {
+          return data[j];
+        }
+      }
       while (i--) {
-        total += (parseInt(dataItems[i][column.field], 10) || 0);
+        total += (parseInt(getData(i)[column.field], 10) || 0);
       }
       totals[column.id] = total;
     }
